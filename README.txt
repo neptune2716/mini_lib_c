@@ -1,3 +1,7 @@
+Remarque : l'executable crée Après la premiere et deuxieme partie s'appelle prog sys
+
+
+
 Exercice 5 :
 
 En initialisant le buffer avec des '\0' avant de le renvoyer, on s'assure que toute la mémoire allouée est mise à zéro. Cela évite d'avoir des données résiduelles ou indésirables dans le buffer, ce qui peut provoquer des comportements imprévisibles ou des failles de sécurité. C'est particulièrement important pour les chaînes de caractères, car cela garantit qu'elles sont correctement terminées par un caractère nul.

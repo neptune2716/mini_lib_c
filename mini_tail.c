@@ -1,4 +1,3 @@
-
 #include "mini_lib.h"
 
 //exo 40
@@ -23,6 +22,7 @@ int main(int argc, char* argv[]) {
     char *lines[N];
     int line_lengths[N];
     int current_line = 0;
+    int total_lines = 0; 
 
     for (int i = 0; i < N; i++) {
         lines[i] = mini_calloc(1, 1024);
@@ -43,16 +43,19 @@ int main(int argc, char* argv[]) {
             lines[current_line][line_lengths[current_line]] = '\0';
             current_line = (current_line + 1) % N;
             line_lengths[current_line] = 0;
+            total_lines++; 
         }
     }
 
-    int start = current_line;
-    for (int i = 0; i < N; i++) {
-        int idx = (start + i) % N;
-        if (line_lengths[idx] > 0) {
-            mini_printf(lines[idx]);
-        }
+int lines_to_print = (total_lines < N) ? total_lines : N;
+int start = (total_lines < N) ? 0 : current_line;
+
+for (int i = 0; i < lines_to_print; i++) {
+    int index = (start + i) % N;
+    if (line_lengths[index] > 0) {
+        mini_printf(lines[index]);
     }
+}
 
     for (int i = 0; i < N; i++) {
         mini_free(lines[i]);

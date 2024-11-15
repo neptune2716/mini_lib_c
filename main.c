@@ -2,10 +2,9 @@
 #include "mini_lib.h"
 
 int main() {
-    // Initialiser mini_io pour configurer mini_stdout
     initialize_mini_io();
 
-    // Exercice 12 : Allocation de mémoire
+    // Exercice 12 
     mini_printf("Allocation de 3 blocs de mémoire.\n");
     void* ptr1 = mini_calloc(10, sizeof(int));
     if (ptr1 == NULL) {
@@ -28,11 +27,9 @@ int main() {
     }
     mini_printf("ptr3 alloué.\n");
 
-    // Libération de ptr2
     mini_printf("Libération de ptr2.\n");
     mini_free(ptr2);
 
-    // Allocation de ptr4 avec une taille égale à ptr2
     mini_printf("Allocation de ptr4 avec une taille égale à ptr2.\n");
     void* ptr4 = mini_calloc(20, sizeof(int));
     if (ptr4 == NULL) {
@@ -62,7 +59,7 @@ int main() {
         mini_printf("Erreur lors de la saisie.\n");
     }
 
-    // Exercice 21 : Test des fonctions mini_strlen, mini_strcpy et mini_strcmp
+    // Exercice 21 
     mini_printf("Test des fonctions de manipulation de chaînes.\n");
     char test_str1[] = "Bonjour, Monde!";
     mini_printf("La longueur de \"");
@@ -106,7 +103,7 @@ int main() {
         mini_printf("Les chaînes sont identiques.\n");
     }
 
-    // Exercice 30 : Test de mini_fread
+    // Exercice 30 
     mini_printf("Test de mini_fread.\n");
     MYFILE* file = mini_fopen("test_file.txt", 'r');
     if (file != NULL) {
@@ -125,7 +122,7 @@ int main() {
         mini_printf("Erreur lors de l'ouverture du fichier.\n");
     }
 
-    // Exercice 32 : Test de mini_fwrite
+    // Exercice 32 
     mini_printf("Test de mini_fwrite.\n");
     MYFILE* outFile = mini_fopen("output_test.txt", 'w');
     if (outFile != NULL) {
@@ -142,10 +139,9 @@ int main() {
         mini_printf("Erreur lors de l'ouverture du fichier en écriture.\n");
     }
 
-    // Exercice 38 : Test de mini_fgetc et mini_fputc
+    // Exercice 38
     mini_printf("Test de mini_fgetc et mini_fputc.\n");
 
-    // Test de mini_fgetc
     MYFILE* inFile = mini_fopen("test_file.txt", 'r');
     if (inFile != NULL) {
         int ch;
@@ -159,9 +155,6 @@ int main() {
     } else {
         mini_printf("Erreur lors de l'ouverture du fichier en lecture.\n");
     }
-
-
-    // Test de mini_fputc
     outFile = mini_fopen("fputc_output.txt", 'w');
     if (outFile != NULL) {
         char text[] = "Ceci est un test de mini_fputc.\n";
@@ -177,7 +170,7 @@ int main() {
         mini_printf("Erreur lors de l'ouverture du fichier en écriture.\n");
     }
 
-    // Exercice 18 : Appel de mini_exit
+    // Exercice 18 
     mini_printf("Fin du programme, appel de mini_exit.\n");
     mini_exit();
     return 0; 

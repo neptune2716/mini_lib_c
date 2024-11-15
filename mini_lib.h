@@ -274,4 +274,7 @@ void mini_itoa(int num, char* str);
  */
 int mini_atoi(char* str);
 
+char* mini_fgets(char* buffer, int size, MYFILE* file);
+
 #endif // MINI_LIB_H
+

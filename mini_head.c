@@ -1,5 +1,6 @@
 //exo 40
 #include "mini_lib.h"
+#include <stdio.h>
 
 int main(int argc, char* argv[]) {
     if (argc != 4 || mini_strcmp(argv[1], "-n") != 0) {
@@ -21,11 +22,21 @@ int main(int argc, char* argv[]) {
 
     char line[256];
     int line_count = 0;
+    int char_read;
+    int index = 0;
 
-    while (line_count < N && mini_fread(line, sizeof(char), 255, file) > 0) {
-        mini_printf(line);
-        mini_printf("\n");
-        line_count++;
+    while (line_count < N && (char_read = mini_fgetc(file)) != EOF) {
+        if (char_read == '\n') {
+            line[index] = '\0';
+            mini_printf(line);
+            mini_printf("\n");
+            line_count++;
+            index = 0;
+        } else {
+            if (index < 255) {
+                line[index++] = (char)char_read;
+            }
+        }
     }
 
     mini_fclose(file);

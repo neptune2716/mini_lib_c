@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <stddef.h>
 #include <errno.h>
+#include <stdio.h>
 
 // Exercice 15 :
 char* buffer = NULL;
