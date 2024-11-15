@@ -12,10 +12,10 @@ int mini_strstr(char* haystack, char* needle) {
             j++;
         }
         if (j == len_needle) {
-            return 1; // Trouvé
+            return 1;
         }
     }
-    return 0; // Non trouvé
+    return 0; 
 }
 
 int main(int argc, char* argv[]) {

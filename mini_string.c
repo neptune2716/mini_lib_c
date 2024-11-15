@@ -4,26 +4,23 @@
 #include <stddef.h>
 #include <errno.h>
 
-// Exercice 15 : Variables globales
+// Exercice 15 :
 char* buffer = NULL;
 int ind = -1;
 
-// Implémentation de mini_write
 ssize_t mini_write(int fd, const void* buf, size_t count) {
-    return write(fd, buf, count);  // Appel système direct, autorisé
+    return write(fd, buf, count);
 }
 
-// Exercice 16 : Implémentation corrigée de mini_printf
+// Exercice 16 
 void mini_printf(char* str) {
     if (str == NULL) {
         return;
     }
 
-    // Initialiser le tampon lors du premier appel
     if (buffer == NULL) {
         buffer = mini_calloc(BUF_SIZE, sizeof(char));
         if (buffer == NULL) {
-            // Gestion de l'erreur d'allocation
             return;
         }
         ind = 0;
@@ -32,8 +29,6 @@ void mini_printf(char* str) {
     int i = 0;
     while (str[i] != '\0') {
         buffer[ind++] = str[i];
-
-        // Si le tampon est plein ou si le caractère est un saut de ligne, écrire et réinitialiser le tampon
         if (ind == BUF_SIZE || str[i] == '\n') {
             mini_write(1, buffer, ind);
             ind = 0;
@@ -42,7 +37,7 @@ void mini_printf(char* str) {
     }
 }
 
-// Exercice 19, 20 : mini_scanf
+// Exercice 19, 20 
 int mini_scanf(char* buf, int size_buffer) {
     if (buf == NULL || size_buffer <= 0) {
         return -1;
@@ -67,9 +62,8 @@ int mini_scanf(char* buf, int size_buffer) {
     return bytes_read;
 }
 
-// Exercice 21, 22 : Fonctions de chaînes corrigées
+// Exercice 21, 22 
 
-// mini_strlen
 int mini_strlen(char* s) {
     if (s == NULL) {
         return 0;
@@ -81,7 +75,6 @@ int mini_strlen(char* s) {
     return length;
 }
 
-// mini_strcpy
 int mini_strcpy(char* s, char* d, size_t d_size) {
     if (s == NULL || d == NULL) {
         return -1;
@@ -99,7 +92,6 @@ int mini_strcpy(char* s, char* d, size_t d_size) {
     return (int)count;
 }
 
-// mini_strcmp
 int mini_strcmp(char* s1, char* s2) {
     if (s1 == NULL && s2 == NULL) {
         return 0;
@@ -120,13 +112,12 @@ int mini_strcmp(char* s1, char* s2) {
     return (unsigned char)s1[i] - (unsigned char)s2[i];
 }
 
-// Exercice 23 : mini_perror corrigée
+// Exercice 23 
 void mini_perror(char* message) {
     if (message != NULL) {
         mini_write(2, message, mini_strlen(message));
         mini_write(2, ": ", 2);
     }
-    // Au lieu d'utiliser strerror(errno), nous fournissons nos propres messages d'erreur
     char* error_message = NULL;
     switch(errno) {
         case EACCES:
@@ -156,7 +147,6 @@ void mini_perror(char* message) {
         case EIO:
             error_message = "I/O error";
             break;
-        // Ajoutez plus de cas si nécessaire
         default:
             error_message = "Unknown error";
             break;
@@ -202,21 +192,15 @@ int mini_atoi(char* str) {
     int result = 0;
     int sign = 1;
     int i = 0;
-
-    // Skip whitespace
     while (str[i] == ' ') {
         i++;
     }
-
-    // Handle sign
     if (str[i] == '-') {
         sign = -1;
         i++;
     } else if (str[i] == '+') {
         i++;
     }
-
-    // Convert digits to integer
     while (str[i] >= '0' && str[i] <= '9') {
         result = result * 10 + (str[i] - '0');
         i++;

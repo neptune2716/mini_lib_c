@@ -5,10 +5,9 @@
 #include <stdint.h>
 #include <errno.h>
 
-// Exercice 8 : Liste malloc_list
+// Exercice 8 
 malloc_element* malloc_list = NULL;
 
-// Implémentation de mini_memset
 void mini_memset(void* s, int c, size_t n) {
     unsigned char* p = s;
     for (size_t i = 0; i < n; i++) {
@@ -16,7 +15,6 @@ void mini_memset(void* s, int c, size_t n) {
     }
 }
 
-// Implémentation de mini_memcpy
 void mini_memcpy(void* dest, const void* src, size_t n) {
     unsigned char* d = dest;
     const unsigned char* s = src;
@@ -25,7 +23,7 @@ void mini_memcpy(void* dest, const void* src, size_t n) {
     }
 }
 
-// Exercice 5,9,11,14,15 : mini_calloc
+// Exercice 5,9,11,14,15 
 void* mini_calloc(size_t size_element, size_t number_element) {
     if (size_element == 0 || number_element == 0) {
         errno = EINVAL;
@@ -40,7 +38,6 @@ void* mini_calloc(size_t size_element, size_t number_element) {
     size_t total_size = size_element * number_element;
     malloc_element* current = malloc_list;
 
-    // Recherche d'un bloc libre
     while (current != NULL) {
         if (current->status == 0 && current->size >= total_size) {
             current->status = 1;
@@ -50,7 +47,6 @@ void* mini_calloc(size_t size_element, size_t number_element) {
         current = current->next_malloc;
     }
 
-    // Aucun bloc libre approprié, allocation de nouvelle mémoire
     void* ptr = sbrk(total_size);
     if (ptr == (void*)-1) {
         errno = ENOMEM;
@@ -59,7 +55,6 @@ void* mini_calloc(size_t size_element, size_t number_element) {
 
     mini_memset(ptr, 0, total_size);
 
-    // Allocation d'un nouvel élément malloc_element
     malloc_element* new_element = sbrk(sizeof(malloc_element));
     if (new_element == (void*)-1) {
         errno = ENOMEM;
@@ -71,7 +66,6 @@ void* mini_calloc(size_t size_element, size_t number_element) {
     new_element->status = 1;
     new_element->next_malloc = NULL;
 
-    // Ajout à malloc_list
     if (malloc_list == NULL) {
         malloc_list = new_element;
     } else {
@@ -85,7 +79,7 @@ void* mini_calloc(size_t size_element, size_t number_element) {
     return ptr;
 }
 
-// Exercice 10 : mini_free
+// Exercice 10 
 void mini_free(void* ptr) {
     if (ptr == NULL) {
         return;
@@ -101,7 +95,7 @@ void mini_free(void* ptr) {
     }
 }
 
-// Exercice 13,18 : mini_exit et flush_buffer
+// Exercice 13,18 
 void flush_buffer() {
     extern char* buffer;
     extern int ind;
@@ -112,7 +106,7 @@ void flush_buffer() {
 }
 
 void mini_exit() {
-    // Exercice 34 : Vider les tampons d'écriture de tous les fichiers ouverts
+    // Exercice 34 
     MYFILE* courant = open_files_list;
     while (courant != NULL) {
         if (courant->buffer_write != NULL && courant->ind_write > 0) {

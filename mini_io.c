@@ -27,7 +27,7 @@ void initialize_mini_io() {
     }
 }
 
-// Exercice 28 : mini_fopen
+// Exercice 28 
 MYFILE* mini_fopen(char* file, char mode) {
     int fd;
     MYFILE* myfile = (MYFILE*)mini_calloc(1, sizeof(MYFILE));
@@ -67,7 +67,7 @@ MYFILE* mini_fopen(char* file, char mode) {
     return myfile;
 }
 
-// Exercice 29 : mini_fread
+// Exercice 29 
 int mini_fread(void* buffer, int size_element, int number_element, MYFILE* file) {
     if (buffer == NULL || file == NULL || size_element <= 0 || number_element <= 0) {
         return -1;
@@ -108,7 +108,7 @@ int mini_fread(void* buffer, int size_element, int number_element, MYFILE* file)
     return bytes_read / size_element;
 }
 
-// Exercice 31 : mini_fwrite
+// Exercice 31 
 int mini_fwrite(void* buffer, int size_element, int number_element, MYFILE* file) {
     if (buffer == NULL || file == NULL || size_element <= 0 || number_element <= 0) {
         return -1;
@@ -147,7 +147,7 @@ int mini_fwrite(void* buffer, int size_element, int number_element, MYFILE* file
     return bytes_written / size_element;
 }
 
-// Exercice 33 : mini_fflush
+// Exercice 33 
 int mini_fflush(MYFILE* file) {
     if (file == NULL || file->buffer_write == NULL || file->ind_write <= 0) {
         return -1;
@@ -162,13 +162,12 @@ int mini_fflush(MYFILE* file) {
     return result;
 }
 
-// Exercice 35 : mini_fclose
+// Exercice 35 
 int mini_fclose(MYFILE* file) {
     if (file == NULL) {
         return -1;
     }
 
-    // Vider le tampon d'écriture
     if (file->buffer_write != NULL && file->ind_write > 0) {
         if (mini_fflush(file) == -1) {
             return -1;
@@ -187,13 +186,9 @@ int mini_fclose(MYFILE* file) {
             prev->next = file->next;
         }
     }
-
-    // Fermer le descripteur de fichier
     if (close(file->fd) == -1) {
         return -1;
     }
-
-    // Libérer les tampons et la structure MYFILE
     if (file->buffer_read != NULL) {
         mini_free(file->buffer_read);
     }
@@ -205,7 +200,7 @@ int mini_fclose(MYFILE* file) {
     return 0;
 }
 
-// Exercice 36 : mini_fgetc
+// Exercice 36 
 int mini_fgetc(MYFILE* file) {
     if (file == NULL) {
         return -1;
@@ -223,7 +218,7 @@ int mini_fgetc(MYFILE* file) {
     if (file->ind_read >= file->buffer_read_size) {
         int bytes_read = read(file->fd, file->buffer_read, IOBUFFER_SIZE);
         if (bytes_read <= 0) {
-            return -1; // Fin du fichier ou erreur
+            return -1; 
         }
         file->ind_read = 0;
         file->buffer_read_size = bytes_read;
@@ -232,7 +227,7 @@ int mini_fgetc(MYFILE* file) {
     return ((unsigned char*)file->buffer_read)[file->ind_read++];
 }
 
-// Exercice 37 : mini_fputc corrigée
+// Exercice 37 
 int mini_fputc(MYFILE* file, char c) {
     if (file == NULL) {
         return -1;
