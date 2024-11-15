@@ -103,3 +103,7 @@ clean:
 
 # Declare phony targets
 .PHONY: all clean create_dirs
+
+#rebuild: clean all
+.PHONY: rebuild
+rebuild: clean all
