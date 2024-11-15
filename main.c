@@ -1,10 +1,65 @@
-// main.c
 #include "mini_lib.h"
+#include <stdlib.h>
+#include <sys/stat.h>
 
+//exo 41
+void execute_command(char* line) {
+    mini_printf("Executing command: ");
+    mini_printf(line);
+    mini_printf("\n");
+}
+
+//exo 41
+void load_config() {
+    char* home = getenv("HOME");
+    if (home == NULL) {
+        return; 
+    }
+
+    char config_path[512];
+    mini_strcpy(home, config_path, sizeof(config_path));
+    mini_strcat(config_path, "/.mini_bashrc", sizeof(config_path));
+
+    struct stat st;
+    if (stat(config_path, &st) != 0) {
+        return;
+    }
+
+    MYFILE* config_file = mini_fopen(config_path, 'r');
+    if (config_file == NULL) {
+        mini_printf("Erreur: Impossible d'ouvrir ~/.mini_bashrc.\n");
+        return;
+    }
+
+    char line[BUF_SIZE];
+    int ch;
+    int index = 0;
+
+    while ((ch = mini_fgetc(config_file)) != EOF) {
+        if (ch != '\n' && index < BUF_SIZE - 1) {
+            line[index++] = (char)ch;
+        } else {
+            line[index] = '\0';
+            execute_command(line);
+            index = 0;
+        }
+    }
+
+    if (index > 0) {
+        line[index] = '\0';
+        execute_command(line);
+    }
+
+    mini_fclose(config_file);
+}
+
+//exo 41
 int main() {
     initialize_mini_io();
 
-    // Exercice 12 
+    load_config();
+
+    //exo 12
     mini_printf("Allocation de 3 blocs de mémoire.\n");
     void* ptr1 = mini_calloc(10, sizeof(int));
     if (ptr1 == NULL) {
@@ -38,12 +93,12 @@ int main() {
     }
     mini_printf("ptr4 alloué.\n");
 
-    // Exercice 16 : Test de mini_printf
+    //exo 16
     mini_printf("Test de mini_printf avec des messages.\n");
     mini_printf("Bonjour, Monde!\n");
     mini_printf("Ceci est un test de mini_printf.\n");
 
-    // Exercice 19 : Test de mini_scanf
+    //exo 19
     char input_buffer[50];
     mini_printf("Veuillez saisir une chaîne de caractères (max 49) : ");
     int chars_read = mini_scanf(input_buffer, 50);
@@ -59,7 +114,7 @@ int main() {
         mini_printf("Erreur lors de la saisie.\n");
     }
 
-    // Exercice 21 
+    /:exo 21
     mini_printf("Test des fonctions de manipulation de chaînes.\n");
     char test_str1[] = "Bonjour, Monde!";
     mini_printf("La longueur de \"");
@@ -103,7 +158,7 @@ int main() {
         mini_printf("Les chaînes sont identiques.\n");
     }
 
-    // Exercice 30 
+    //exo 30
     mini_printf("Test de mini_fread.\n");
     MYFILE* file = mini_fopen("test_file.txt", 'r');
     if (file != NULL) {
@@ -122,7 +177,7 @@ int main() {
         mini_printf("Erreur lors de l'ouverture du fichier.\n");
     }
 
-    // Exercice 32 
+    //exo 32
     mini_printf("Test de mini_fwrite.\n");
     MYFILE* outFile = mini_fopen("output_test.txt", 'w');
     if (outFile != NULL) {
@@ -139,7 +194,7 @@ int main() {
         mini_printf("Erreur lors de l'ouverture du fichier en écriture.\n");
     }
 
-    // Exercice 38
+    //exo 38
     mini_printf("Test de mini_fgetc et mini_fputc.\n");
 
     MYFILE* inFile = mini_fopen("test_file.txt", 'r');
@@ -170,7 +225,7 @@ int main() {
         mini_printf("Erreur lors de l'ouverture du fichier en écriture.\n");
     }
 
-    // Exercice 18 
+    //exo 18
     mini_printf("Fin du programme, appel de mini_exit.\n");
     mini_exit();
     return 0; 

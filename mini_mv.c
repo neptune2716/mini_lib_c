@@ -1,15 +1,7 @@
-
+//exo 40
 #include "mini_lib.h"
-#include <unistd.h>  // For rename and unlink
-#include <errno.h>
+#define SYS_unlink 87
 
-/**
- * @brief Moves a file from source to destination.
- *
- * @param argc Argument count.
- * @param argv Argument values.
- * @return int Exit status.
- */
 int main(int argc, char* argv[]) {
     if (argc != 3) {
         mini_printf("Usage: mini_mv <source> <destination>\n");
@@ -19,46 +11,41 @@ int main(int argc, char* argv[]) {
     char* source = argv[1];
     char* destination = argv[2];
 
-    // Attempt to rename the file (move it)
-    if (rename(source, destination) == -1) {
-        // If rename fails, attempt to copy and delete
-        MYFILE* srcFile = mini_fopen(source, 'r');
-        if (srcFile == NULL) {
-            mini_perror("Error opening source file");
-            mini_exit();
-        }
+    MYFILE* srcFile = mini_fopen(source, 'r');
+    if (srcFile == NULL) {
+        mini_perror("Erreur à l'ouverture du fichier source");
+        mini_exit();
+    }
 
-        MYFILE* destFile = mini_fopen(destination, 'w');
-        if (destFile == NULL) {
-            mini_perror("Error opening destination file");
-            mini_fclose(srcFile);
-            mini_exit();
-        }
-
-        char buffer[BUF_SIZE];
-        int bytes_read;
-        while ((bytes_read = mini_fread(buffer, sizeof(char), BUF_SIZE, srcFile)) > 0) {
-            if (mini_fwrite(buffer, sizeof(char), bytes_read, destFile) != bytes_read) {
-                mini_perror("Error writing to destination file");
-                mini_fclose(srcFile);
-                mini_fclose(destFile);
-                mini_exit();
-            }
-        }
-
+    MYFILE* destFile = mini_fopen(destination, 'w');
+    if (destFile == NULL) {
+        mini_perror("Erreur à l'ouverture du fichier de destination");
         mini_fclose(srcFile);
-        mini_fclose(destFile);
+        mini_exit();
+    }
 
-        // Remove the source file
-        if (unlink(source) == -1) {
-            mini_perror("Error deleting source file");
+    char buffer[BUF_SIZE];
+    int bytes_read;
+    while ((bytes_read = mini_fread(buffer, sizeof(char), BUF_SIZE, srcFile)) > 0) {
+        if (mini_fwrite(buffer, sizeof(char), bytes_read, destFile) != bytes_read) {
+            mini_perror("Erreur lors de l'écriture dans le fichier de destination");
+            mini_fclose(srcFile);
+            mini_fclose(destFile);
             mini_exit();
         }
     }
 
-    mini_printf("File moved from ");
+    mini_fclose(srcFile);
+    mini_fclose(destFile);
+
+    if (syscall(SYS_unlink, source) == -1) {
+        mini_perror("Erreur lors de la suppression du fichier source");
+        mini_exit();
+    }
+
+    mini_printf("Fichier déplacé de ");
     mini_printf(source);
-    mini_printf(" to ");
+    mini_printf(" vers ");
     mini_printf(destination);
     mini_printf(".\n");
 

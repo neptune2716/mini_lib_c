@@ -1,6 +1,5 @@
 //exo 40
 #include "mini_lib.h"
-#include <stdio.h>
 
 int main(int argc, char* argv[]) {
     if (argc != 4 || mini_strcmp(argv[1], "-n") != 0) {

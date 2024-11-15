@@ -1,4 +1,4 @@
-// mini_memory.c
+//exo 40
 #include "mini_lib.h"
 #include <unistd.h>
 #include <stddef.h>

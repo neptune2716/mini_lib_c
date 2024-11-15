@@ -1,16 +1,14 @@
-// mini_io.c
 #include "mini_lib.h"
 #include <unistd.h>
-#include <fcntl.h> 
+#include <fcntl.h>
 #include <errno.h>
 #include <stddef.h>
 
-// Exercice 26
+//exo 26
 #define IOBUFFER_SIZE 2048
 
-// Exercice 34
+//exo 34
 MYFILE* open_files_list = NULL;
-
 MYFILE* mini_stdout = NULL;
 
 void initialize_mini_io() {
@@ -19,7 +17,7 @@ void initialize_mini_io() {
         if (mini_stdout == NULL) {
             return;
         }
-        mini_stdout->fd = 1; 
+        mini_stdout->fd = 1;
         mini_stdout->ind_write = 0;
         mini_stdout->buffer_write = NULL;
         mini_stdout->next = open_files_list;
@@ -27,7 +25,7 @@ void initialize_mini_io() {
     }
 }
 
-// Exercice 28 
+//exo 28
 MYFILE* mini_fopen(char* file, char mode) {
     int fd;
     MYFILE* myfile = (MYFILE*)mini_calloc(1, sizeof(MYFILE));
@@ -61,13 +59,13 @@ MYFILE* mini_fopen(char* file, char mode) {
     myfile->ind_write = -1;
     myfile->buffer_read = NULL;
     myfile->buffer_write = NULL;
-    myfile->next = open_files_list; 
+    myfile->next = open_files_list;
     open_files_list = myfile;
 
     return myfile;
 }
 
-// Exercice 29 
+//exo 29
 int mini_fread(void* buffer, int size_element, int number_element, MYFILE* file) {
     if (buffer == NULL || file == NULL || size_element <= 0 || number_element <= 0) {
         return -1;
@@ -108,7 +106,7 @@ int mini_fread(void* buffer, int size_element, int number_element, MYFILE* file)
     return bytes_read / size_element;
 }
 
-// Exercice 31 
+//exo 31
 int mini_fwrite(void* buffer, int size_element, int number_element, MYFILE* file) {
     if (buffer == NULL || file == NULL || size_element <= 0 || number_element <= 0) {
         return -1;
@@ -147,7 +145,7 @@ int mini_fwrite(void* buffer, int size_element, int number_element, MYFILE* file
     return bytes_written / size_element;
 }
 
-// Exercice 33 
+//exo 33
 int mini_fflush(MYFILE* file) {
     if (file == NULL || file->buffer_write == NULL || file->ind_write <= 0) {
         return -1;
@@ -162,7 +160,7 @@ int mini_fflush(MYFILE* file) {
     return result;
 }
 
-// Exercice 35 
+//exo 35
 int mini_fclose(MYFILE* file) {
     if (file == NULL) {
         return -1;
@@ -200,7 +198,7 @@ int mini_fclose(MYFILE* file) {
     return 0;
 }
 
-// Exercice 36 
+//exo 36
 int mini_fgetc(MYFILE* file) {
     if (file == NULL) {
         return -1;
@@ -218,7 +216,7 @@ int mini_fgetc(MYFILE* file) {
     if (file->ind_read >= file->buffer_read_size) {
         int bytes_read = read(file->fd, file->buffer_read, IOBUFFER_SIZE);
         if (bytes_read <= 0) {
-            return -1; 
+            return -1;
         }
         file->ind_read = 0;
         file->buffer_read_size = bytes_read;
@@ -227,7 +225,7 @@ int mini_fgetc(MYFILE* file) {
     return ((unsigned char*)file->buffer_read)[file->ind_read++];
 }
 
-// Exercice 37 
+//exo 37
 int mini_fputc(MYFILE* file, char c) {
     if (file == NULL) {
         return -1;

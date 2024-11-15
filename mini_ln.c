@@ -1,6 +1,6 @@
-
+//exo 40
 #include "mini_lib.h"
-#include <unistd.h>
+#define SYS_symlink 88
 
 int main(int argc, char* argv[]) {
     if (argc != 3) {
@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
     char* source = argv[1];
     char* destination = argv[2];
 
-    if (symlink(source, destination) == -1) {
+    if (syscall(SYS_symlink, source, destination) == -1) {
         mini_perror("Erreur: Impossible de créer le lien symbolique");
         mini_exit();
     }

@@ -4,12 +4,11 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-// Définition de la structure linux_dirent
 struct linux_dirent {
-    unsigned long   d_ino;     // Numéro d'inœud
-    unsigned long   d_off;     // Décalage vers la prochaine entrée
-    unsigned short  d_reclen;  // Longueur de cette entrée
-    char            d_name[];  // Nom du fichier (de longueur variable)
+    unsigned long   d_ino;
+    unsigned long   d_off;
+    unsigned short  d_reclen;
+    char            d_name[];
 };
 
 int main() {
@@ -19,14 +18,12 @@ int main() {
     struct linux_dirent *d;
     int bpos;
 
-    // Ouvrir le répertoire courant
     fd = open(".", O_RDONLY | O_DIRECTORY);
     if (fd == -1) {
         mini_printf("Erreur: Impossible d'ouvrir le répertoire.\n");
         mini_exit();
     }
 
-    // Lire les entrées du répertoire en utilisant getdents
     for (;;) {
         nread = syscall(SYS_getdents, fd, buf, sizeof(buf));
         if (nread == -1) {
@@ -40,7 +37,6 @@ int main() {
         for (bpos = 0; bpos < nread;) {
             d = (struct linux_dirent *) (buf + bpos);
 
-            // Afficher le nom du fichier
             mini_printf(d->d_name);
             mini_printf("\n");
 
@@ -48,7 +44,7 @@ int main() {
         }
     }
 
-    close(fd);
+    syscall(SYS_close, fd);
     mini_exit();
     return 0;
 }

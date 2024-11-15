@@ -1,14 +1,7 @@
+//exo 40
 #include "mini_lib.h"
-#include <sys/stat.h> // For mkdir
-#include <sys/types.h>
+#define SYS_mkdir 83
 
-/**
- * @brief Creates a new directory with the specified name.
- *
- * @param argc Argument count.
- * @param argv Argument values.
- * @return int Exit status.
- */
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         mini_printf("Usage: mini_mkdir <directory_name>\n");
@@ -17,8 +10,7 @@ int main(int argc, char* argv[]) {
 
     char* dir_name = argv[1];
 
-    // Attempt to create the directory with default permissions
-    if (mkdir(dir_name, 0755) == -1) {
+    if (syscall(SYS_mkdir, dir_name, 0755) == -1) {
         mini_perror("Erreur: Impossible de créer le répertoire");
         mini_exit();
     }

@@ -1,10 +1,6 @@
-
+//exo 40
 #include "mini_lib.h"
-#include <fcntl.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <errno.h>
+#define SYS_chmod 90
 
 int main(int argc, char* argv[]) {
     if (argc != 3) {
@@ -15,7 +11,6 @@ int main(int argc, char* argv[]) {
     char* perm_str = argv[1];
     char* filename = argv[2];
 
-    // Convert permission string to integer
     int permissions = 0;
     for (int i = 0; i < mini_strlen(perm_str); i++) {
         if (perm_str[i] < '0' || perm_str[i] > '7') {
@@ -25,9 +20,8 @@ int main(int argc, char* argv[]) {
         permissions = permissions * 8 + (perm_str[i] - '0');
     }
 
-    // Change file permissions
-    if (chmod(filename, permissions) == -1) {
-        mini_printf("Erreur: Impossible de changer les permissions.\n");
+    if (syscall(SYS_chmod, filename, permissions) == -1) {
+        mini_perror("Erreur: Impossible de changer les permissions.");
         mini_exit();
     }
 

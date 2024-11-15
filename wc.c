@@ -1,4 +1,3 @@
-
 //exo 40
 #include "mini_lib.h"
 

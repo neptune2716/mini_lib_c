@@ -1,11 +1,9 @@
-// mini_string.c
 #include "mini_lib.h"
 #include <unistd.h>
 #include <stddef.h>
 #include <errno.h>
-#include <stdio.h>
 
-// Exercice 15 :
+//exo 15
 char* buffer = NULL;
 int ind = -1;
 
@@ -13,7 +11,7 @@ ssize_t mini_write(int fd, const void* buf, size_t count) {
     return write(fd, buf, count);
 }
 
-// Exercice 16 
+//exo 16
 void mini_printf(char* str) {
     if (str == NULL) {
         return;
@@ -38,7 +36,7 @@ void mini_printf(char* str) {
     }
 }
 
-// Exercice 19, 20 
+//exo 19,20
 int mini_scanf(char* buf, int size_buffer) {
     if (buf == NULL || size_buffer <= 0) {
         return -1;
@@ -62,9 +60,7 @@ int mini_scanf(char* buf, int size_buffer) {
 
     return bytes_read;
 }
-
-// Exercice 21, 22 
-
+//exo 21,22
 int mini_strlen(char* s) {
     if (s == NULL) {
         return 0;
@@ -113,7 +109,7 @@ int mini_strcmp(char* s1, char* s2) {
     return (unsigned char)s1[i] - (unsigned char)s2[i];
 }
 
-// Exercice 23 
+//exo 23
 void mini_perror(char* message) {
     if (message != NULL) {
         mini_write(2, message, mini_strlen(message));
@@ -208,4 +204,26 @@ int mini_atoi(char* str) {
     }
 
     return sign * result;
+}
+
+//exo 42
+int mini_strcat(char* dest, const char* src, int dest_size) {
+    if (dest == NULL || src == NULL || dest_size <= 0) {
+        return -1;
+    }
+
+    int dest_len = mini_strlen(dest);
+    int src_len = mini_strlen((char*)src);
+
+    if (dest_len + src_len >= dest_size) {
+        // Pas assez d'espace dans le buffer de destination
+        return -1;
+    }
+
+    for (int i = 0; i < src_len; i++) {
+        dest[dest_len + i] = src[i];
+    }
+    dest[dest_len + src_len] = '\0';
+
+    return src_len;
 }

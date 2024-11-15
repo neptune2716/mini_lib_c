@@ -26,7 +26,6 @@ int main(int argc, char* argv[]) {
     int src_eof = 0, dest_eof = 0;
 
     while (1) {
-        // Read a line from the source file using mini_fgetc
         int src_index = 0;
         int ch;
         while ((ch = mini_fgetc(srcFile)) != -1 && ch != '\n' && src_index < BUF_SIZE - 1) {
@@ -37,7 +36,6 @@ int main(int argc, char* argv[]) {
         }
         src_line[src_index] = '\0';
 
-        // Read a line from the destination file using mini_fgetc
         int dest_index = 0;
         while ((ch = mini_fgetc(destFile)) != -1 && ch != '\n' && dest_index < BUF_SIZE - 1) {
             dest_line[dest_index++] = (char)ch;

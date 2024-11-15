@@ -26,7 +26,8 @@ LIB_OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(LIB_SRCS))
 EXECS = $(BIN_DIR)/prog_sys $(BIN_DIR)/wc $(BIN_DIR)/mini_cat $(BIN_DIR)/mini_clean \
         $(BIN_DIR)/mini_cp $(BIN_DIR)/mini_echo $(BIN_DIR)/mini_grep $(BIN_DIR)/mini_head \
         $(BIN_DIR)/mini_tail $(BIN_DIR)/mini_touch $(BIN_DIR)/mini_ls $(BIN_DIR)/mini_chmod \
-        $(BIN_DIR)/mini_ln $(BIN_DIR)/mini_quickdiff $(BIN_DIR)/mini_mkdir $(BIN_DIR)/mini_mv
+        $(BIN_DIR)/mini_ln $(BIN_DIR)/mini_quickdiff $(BIN_DIR)/mini_mkdir $(BIN_DIR)/mini_mv \
+        $(BIN_DIR)/mini_rm $(BIN_DIR)/mini_rmdir
 
 # Define the main source files for each executable
 PROG_SYS_SRCS = main.c
@@ -45,6 +46,8 @@ MINI_LN_SRCS = mini_ln.c
 MINI_QUICKDIFF_SRCS = mini_quickdiff.c
 MINI_MKDIR_SRCS = mini_mkdir.c
 MINI_MV_SRCS = mini_mv.c
+MINI_RM_SRCS = mini_rm.c
+MINI_RMDIR_SRCS = mini_rmdir.c
 
 # Convert main source files to object files
 PROG_SYS_OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(PROG_SYS_SRCS))
@@ -63,6 +66,8 @@ MINI_LN_OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(MINI_LN_SRCS))
 MINI_QUICKDIFF_OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(MINI_QUICKDIFF_SRCS))
 MINI_MKDIR_OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(MINI_MKDIR_SRCS))
 MINI_MV_OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(MINI_MV_SRCS))
+MINI_RM_OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(MINI_RM_SRCS))
+MINI_RMDIR_OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(MINI_RMDIR_SRCS))
 
 # Default target to build all executables
 all: create_dirs $(EXECS)
@@ -133,6 +138,14 @@ $(BIN_DIR)/mini_mkdir: $(MINI_MKDIR_OBJS) $(LIB_OBJS)
 
 # Rule to build mini_mv
 $(BIN_DIR)/mini_mv: $(MINI_MV_OBJS) $(LIB_OBJS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+
+# Rule to build mini_rm
+$(BIN_DIR)/mini_rm: $(MINI_RM_OBJS) $(LIB_OBJS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+
+# Rule to build mini_rmdir
+$(BIN_DIR)/mini_rmdir: $(MINI_RMDIR_OBJS) $(LIB_OBJS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 # Pattern rule to compile .c files to .o files
