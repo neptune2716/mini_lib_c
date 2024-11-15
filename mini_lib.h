@@ -276,5 +276,7 @@ int mini_atoi(char* str);
 
 char* mini_fgets(char* buffer, int size, MYFILE* file);
 
+// Add any new prototypes here if necessary
+
 #endif // MINI_LIB_H
 
